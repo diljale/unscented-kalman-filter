@@ -78,37 +78,37 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   if (!is_initialized_) {
     // first measurement
    
-    if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
+    if (meas_package.sensor_type_ == MeasurementPackage::RADAR) {
       /**
       Convert radar from polar to cartesian coordinates and initialize state.
       */
-        x_ << measurement_pack.raw_measurements_[0] * cos(measurement_pack.raw_measurements_[1]), 
-              measurement_pack.raw_measurements_[0] * sin(measurement_pack.raw_measurements_[1]), 0, 0;
+        x_ << meas_package.raw_measurements_[0] * cos(meas_package.raw_measurements_[1]), 
+              meas_package.raw_measurements_[0] * sin(meas_package.raw_measurements_[1]), 0, 0;
     }
-    else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
+    else if (meas_package.sensor_type_ == MeasurementPackage::LASER) {
       /**
       Initialize state.
       */
-       x_ << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1], 0, 0;
+       x_ << meas_package.raw_measurements_[0], meas_package.raw_measurements_[1], 0, 0;
     }
 
     // done initializing, no need to predict or update
     is_initialized_ = true;
-    time_us_ = measurement_pack.timestamp_;
+    time_us_ = meas_package.timestamp_;
       
     return;
   }
   
-  float dt = (measurement_pack.timestamp_ - time_us_) / 1000000.0;	//dt - expressed in seconds
-  time_us_ = measurement_pack.timestamp_;
+  float dt = (meas_package.timestamp_ - time_us_) / 1000000.0;	//dt - expressed in seconds
+  time_us_ = meas_package.timestamp_;
   Prediction(dt);
   
-  if (use_radar_ && measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
+  if (use_radar_ && meas_package.sensor_type_ == MeasurementPackage::RADAR) {
     // Radar updates
-      UpdateRadar(measurement_pack.raw_measurements_); 
+      UpdateRadar(meas_package); 
   } else if (use_laser_) {
     // Laser updates
-      UpdateLidar(measurement_pack.raw_measurements_);
+      UpdateLidar(meas_package);
   }
   
   // print the output
