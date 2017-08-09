@@ -153,7 +153,7 @@ void UKF::Prediction(double delta_t) {
 
   //create augmented sigma points
   Xsig_aug.col(0)  = x_aug;
-  for (int i = 0; i< n_aug; i++)
+  for (int i = 0; i< n_aug_; i++)
   {
     Xsig_aug.col(i+1)       = x_aug + sqrt(lambda_+n_aug_) * L.col(i);
     Xsig_aug.col(i+1+n_aug) = x_aug - sqrt(lambda_+n_aug_) * L.col(i);
@@ -312,12 +312,12 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   S = S + R;
 
   VectorXd z = VectorXd(n_z);
-  z <<  measurement_pack.raw_measurements_[0],
-	 measurement_pack.raw_measurements_[1],
-	 measurement_pack.raw_measurements_[2];
+  z <<  meas_package.raw_measurements_[0],
+	 meas_package.raw_measurements_[1],
+	 meas_package.raw_measurements_[2];
 	
   //create matrix for cross correlation Tc
-  MatrixXd Tc = MatrixXd(n_x, n_z);
+  MatrixXd Tc = MatrixXd(n_x_, n_z);
 
   //calculate cross correlation matrix
   Tc.fill(0.0);
