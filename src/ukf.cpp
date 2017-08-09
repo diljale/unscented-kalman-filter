@@ -23,7 +23,7 @@ UKF::UKF() {
   x_ = VectorXd(5);
 
   // initial covariance matrix
-  P_ = MatrixXd(5, 5);
+  P_ = MatrixXd::Identity(5, 5);
 
   // Process noise standard deviation longitudinal acceleration in m/s^2
   std_a_ = 6;
@@ -83,13 +83,13 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
       Convert radar from polar to cartesian coordinates and initialize state.
       */
         x_ << meas_package.raw_measurements_[0] * cos(meas_package.raw_measurements_[1]), 
-              meas_package.raw_measurements_[0] * sin(meas_package.raw_measurements_[1]), 0, 0;
+              meas_package.raw_measurements_[0] * sin(meas_package.raw_measurements_[1]), 0, 0, 0;
     }
     else if (meas_package.sensor_type_ == MeasurementPackage::LASER) {
       /**
       Initialize state.
       */
-       x_ << meas_package.raw_measurements_[0], meas_package.raw_measurements_[1], 0, 0;
+       x_ << meas_package.raw_measurements_[0], meas_package.raw_measurements_[1], 0, 0, 0;
     }
 
     // done initializing, no need to predict or update
@@ -113,6 +113,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   
   // print the output
   cout << "x_ = " << x_ << endl;
+  cout << "P_ = " << P_ << endl;
 }
 
 /**
