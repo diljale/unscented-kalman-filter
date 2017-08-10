@@ -33,7 +33,7 @@ UKF::UKF() {
   std_a_ = 7;
 
   // Process noise standard deviation yaw acceleration in rad/s^2
-  std_yawdd_ = M_PI / 4.f;
+  std_yawdd_ = M_PI / 3.8;
 
   // Laser measurement noise standard deviation position1 in m
   std_laspx_ = 0.15;
@@ -56,6 +56,14 @@ UKF::UKF() {
   weights_ =  VectorXd(2*n_aug_+1);
   lambda_ = 3 - n_aug_;
   time_us_ = 0;
+	
+   // set weights
+  double weight_0 = lambda_/(lambda_+n_aug_);
+  weights_(0) = weight_0;
+  for (int i=1; i<2*n_aug_+1; i++) {  //2n+1 weights
+    double weight = 0.5/(n_aug_+lambda_);
+    weights_(i) = weight;
+  }
   /**
   TODO:
 
@@ -211,15 +219,7 @@ void UKF::Prediction(double delta_t) {
     Xsig_pred_(3,i) = yaw_p;
     Xsig_pred_(4,i) = yawd_p;
   }
-  
-  // set weights
-  double weight_0 = lambda_/(lambda_+n_aug_);
-  weights_(0) = weight_0;
-  for (int i=1; i<2*n_aug_+1; i++) {  //2n+1 weights
-    double weight = 0.5/(n_aug_+lambda_);
-    weights_(i) = weight;
-  }
-
+ 
   //predicted state mean
   x_.fill(0.0);
   for (int i = 0; i < 2 * n_aug_ + 1; i++) {  //iterate over sigma points
