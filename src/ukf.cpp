@@ -26,7 +26,7 @@ UKF::UKF() {
   P_ = MatrixXd(5, 5);
   P_ << 1, 0 ,0 ,0 ,0,
 	0, 1, 0, 0, 0,
-	0, 0, 5, 0, 0,
+	0, 0, 1, 0, 0,
 	0, 0, 0, 1, 0,
 	0, 0, 0, 0, 1;
   // Process noise standard deviation longitudinal acceleration in m/s^2
