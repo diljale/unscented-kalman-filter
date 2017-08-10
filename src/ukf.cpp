@@ -30,10 +30,10 @@ UKF::UKF() {
 	0, 0, 0, 1, 0,
 	0, 0, 0, 0, 1;
   // Process noise standard deviation longitudinal acceleration in m/s^2
-  std_a_ = 7;
+  std_a_ = 7.1;
 
   // Process noise standard deviation yaw acceleration in rad/s^2
-  std_yawdd_ = M_PI / 3.8;
+  std_yawdd_ = M_PI / 3.9;
 
   // Laser measurement noise standard deviation position1 in m
   std_laspx_ = 0.15;
@@ -127,8 +127,8 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   }
   
   // print the output
-//  cout << "x_ = " << x_ << endl;
-  //cout << "P_ = " << P_ << endl;
+  cout << "x_ = " << x_ << endl;
+  cout << "P_ = " << P_ << endl;
 }
 
 /**
@@ -319,8 +319,6 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   //update state mean and covariance matrix
   x_ = x_ + K * z_diff;
   P_ = P_ - K*S*K.transpose();
-  double NIS = z_diff.transpose() * S.inverse() * z_diff;
-	std::cout << "Lidar: " << NIS << std::endl;
 }
 
 /**
@@ -427,6 +425,4 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   //update state mean and covariance matrix
   x_ = x_ + K * z_diff;
   P_ = P_ - K*S*K.transpose();
-	double NIS = z_diff.transpose() * S.inverse() * z_diff;
-	std::cout << "Radar: " << NIS << std::endl;
 }
