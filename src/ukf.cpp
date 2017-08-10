@@ -30,7 +30,7 @@ UKF::UKF() {
 	0, 0, 0, 1, 0,
 	0, 0, 0, 0, 1;
   // Process noise standard deviation longitudinal acceleration in m/s^2
-  std_a_ = 8;
+  std_a_ = 7.2;
 
   // Process noise standard deviation yaw acceleration in rad/s^2
   std_yawdd_ = M_PI / 4.f;
@@ -86,8 +86,11 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
       /**
       Convert radar from polar to cartesian coordinates and initialize state.
       */
+      vx = meas_package.raw_measurements_[2] * cos(meas_package.raw_measurements_[1]);
+      vy = meas_package.raw_measurements_[2] * sin(meas_package.raw_measurements_[1]);
+      v = sqrt(vx*vx + vy*vy);
         x_ << meas_package.raw_measurements_[0] * cos(meas_package.raw_measurements_[1]), 
-              meas_package.raw_measurements_[0] * sin(meas_package.raw_measurements_[1]), 0, 0, 0;
+              meas_package.raw_measurements_[0] * sin(meas_package.raw_measurements_[1]), v, 0, 0;
     }
     else if (meas_package.sensor_type_ == MeasurementPackage::LASER) {
       /**
