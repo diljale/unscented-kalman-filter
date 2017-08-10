@@ -24,13 +24,13 @@ UKF::UKF() {
 
   // initial covariance matrix
   P_ = MatrixXd(5, 5);
-  P_ << 0.5, 0 ,0 ,0 ,0,
-	0, 0.5, 0, 0, 0,
-	0, 0, 1, 0, 0,
+  P_ << 1, 0 ,0 ,0 ,0,
+	0, 1, 0, 0, 0,
+	0, 0, 5, 0, 0,
 	0, 0, 0, 1, 0,
 	0, 0, 0, 0, 1;
   // Process noise standard deviation longitudinal acceleration in m/s^2
-  std_a_ = 7.1;
+  std_a_ = 7;
 
   // Process noise standard deviation yaw acceleration in rad/s^2
   std_yawdd_ = M_PI / 3.9;
