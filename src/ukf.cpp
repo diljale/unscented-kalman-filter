@@ -30,10 +30,10 @@ UKF::UKF() {
 	0, 0, 0, 1, 0,
 	0, 0, 0, 0, 1;
   // Process noise standard deviation longitudinal acceleration in m/s^2
-  std_a_ = 10;
+  std_a_ = 8;
 
   // Process noise standard deviation yaw acceleration in rad/s^2
-  std_yawdd_ = M_PI / 7.f;
+  std_yawdd_ = M_PI / 4.f;
 
   // Laser measurement noise standard deviation position1 in m
   std_laspx_ = 0.15;
