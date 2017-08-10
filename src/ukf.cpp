@@ -86,9 +86,9 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
       /**
       Convert radar from polar to cartesian coordinates and initialize state.
       */
-      vx = meas_package.raw_measurements_[2] * cos(meas_package.raw_measurements_[1]);
-      vy = meas_package.raw_measurements_[2] * sin(meas_package.raw_measurements_[1]);
-      v = sqrt(vx*vx + vy*vy);
+      double vx = meas_package.raw_measurements_[2] * cos(meas_package.raw_measurements_[1]);
+      double vy = meas_package.raw_measurements_[2] * sin(meas_package.raw_measurements_[1]);
+      double v = sqrt(vx*vx + vy*vy);
         x_ << meas_package.raw_measurements_[0] * cos(meas_package.raw_measurements_[1]), 
               meas_package.raw_measurements_[0] * sin(meas_package.raw_measurements_[1]), v, 0, 0;
     }
